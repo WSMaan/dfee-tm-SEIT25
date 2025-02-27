@@ -11,7 +11,7 @@ public class Home extends Page {
 
     public Home(ChromeDriver driver) {
         super(driver);
-        System.out.println("Homepage title is : " + getTitle().getText());
+       
     }
 
     @FindBy(css = "h1")
@@ -23,7 +23,7 @@ public class Home extends Page {
 
     public void refresh() {
         driver.navigate().refresh();
-        System.out.println("Refreshed page");
+       
     }
 
 
