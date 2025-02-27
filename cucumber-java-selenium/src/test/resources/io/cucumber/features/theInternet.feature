@@ -4,8 +4,8 @@ Feature: The Internet
   @TEST_TI_0001
   Scenario: Homepage has a list of links to Expected examples
     Given the page under test is 'https://the-internet.herokuapp.com'
-    And an example Home Page step
-    And add other steps
+    When I extract the list of links from the homepage
+    Then the list should contain the expected links
 
 #  @TEST_TI_0001
 #  Scenario: Basic Auth allows validated access

@@ -16,10 +16,10 @@ public class Page {
   }
 
   public void waitForPageLoad() {
-    try {
-      Thread.sleep(Duration.ofSeconds(5));
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
+//    try {
+//      Thread.sleep(Duration.ofSeconds(5));
+//    } catch (InterruptedException e) {
+//      throw new RuntimeException(e);
+//    }
   }
 }
