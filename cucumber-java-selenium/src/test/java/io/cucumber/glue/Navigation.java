@@ -13,6 +13,8 @@ public class Navigation extends Context {
   @Given("^the page under test is '(.+)'$")
   public void navToPage(String url) {
     manager.getDriver().get(url);
-    stash("exampleKey1", "exampleValue1");
+
+    // Store the URL in stash for future use
+    stash("currentPageURL", url);
   }
 }
