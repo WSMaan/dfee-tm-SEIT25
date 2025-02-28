@@ -10,29 +10,47 @@ This is a simple setup for Cucumber with Selenium using Java.
 - Maven
 - Java 21
 
-## Maven
+## Setup Instructions
 
 Open a command/terminal window at the same level as this readme and run:
 
-`cd maven`
-
-`./mvn test -DskipTests`
+```sh
+mvn clean install
+```
 
 ## Run the tests
 
-The runner is available [here](cucumber-java-selenium/src/test/java/io/cucumber/RunCucumberTest.java)
+The runner is available [here](src/test/java/io/cucumber/RunCucumberTest.java)
 
-A basic HTML report will be available [here](cucumber-java-selenium/target/cucumber-report/cucumber.html) after a test run.
+A basic HTML report will be available [here](target/cucumber-report/cucumber.html) after a test run.
 
-### Run a subset of Features or Scenarios
+### Running Tests by Tags
 
-The feature file lives [here](cucumber-java-selenium/src/test/resources/io/cucumber/features/theInternet.feature)
+You can run specific tests by filtering with Cucumber tags.
 
-You can also specify what to run by *tag*:
+Run tests with a single tag:
 
-    @IncludeTags("ExampleTestTag")
+```sh
+mvn clean test "-Dcucumber.filter.tags=@login"
+```
 
-# Required task
+Run tests with multiple tags (using OR condition):
+
+```sh
+mvn clean test "-Dcucumber.filter.tags=@regression or @login"
+```
+
+Run tests with multiple tags (using AND condition):
+
+```sh
+mvn clean test "-Dcucumber.filter.tags=@regression and @smoke"
+```
+
+## Feature Files
+
+The feature files live [here](src/test/resources/io/cucumber/features/theInternet.feature)
+
+## Required Task
 
 ```
 Please clone this repo (do NOT fork it), and follow good version control practices.
@@ -41,15 +59,17 @@ Please clone this repo (do NOT fork it), and follow good version control practic
 - Any additional commits you want as you progress through the task.
 ```
 
-There are 3 titled scenarios in the [feature file](cucumber-java-selenium/src/test/resources/io/cucumber/features/theInternet.feature).
+There are 3 titled scenarios in the [feature file](src/test/resources/io/cucumber/features/theInternet.feature).
 
 Please complete the scenarios to cover the requirements. Feel free to rework/create step definitions, rework/create Page Object Models as you deem appropriate.
 
-Once you have completed the task, please push your work to your own github repo and share the link to the project with us for review prior to interview. Please expect some questions/technical discussion during the interview, relating to your implementation of the given task.
+Once you have completed the task, please push your work to your own GitHub repo and share the link to the project with us for review prior to the interview. Please expect some questions/technical discussion during the interview, relating to your implementation of the given task.
 
-### Requirement for Scenario: Homepage has a list of links to Expected examples
+## Scenario Requirements
 
-Ensure the displayed list of listed examples is as expected. The expected list should contain 
+### 1. Homepage has a list of links to Expected examples
+
+Ensure the displayed list of listed examples is as expected. The expected list should contain:
 
 ```
 A/B Testing
@@ -94,18 +114,29 @@ Typos
 WYSIWYG Editor
 ```
 
-### Requirement for Scenario: Basic Auth allows validated access
+### 2. Basic Auth allows validated access
 
-Test that navigation behaviour works as expected from the 'Homescreen' to 'Basic Auth'. Username and password are both given on the page.
+Test that navigation behavior works as expected from the 'Homescreen' to 'Basic Auth'. Username and password are both given on the page.
 
-### Requirement for Scenario: Sortable Data Tables - Example 1 displays the expected 4 results
+### 3. Sortable Data Tables - Example 1 displays the expected 4 results
 
-Ensure the Example 1 table displays the following results.
+Ensure the Example 1 table displays the following results:
 
 ```
 Last Name   First Name  Email                   Due     Web Site
-Smith	    John	jsmith@gmail.com	$50.00	http://www.jsmith.com
-Bach	    Frank	fbach@yahoo.com	        $51.00	http://www.frank.com
-Doe	    Jason	jdoe@hotmail.com	$100.00	http://www.jdoe.com
-Conway	    Tim	        tconway@earthlink.net	$50.00	http://www.timconway.com
+Smith       John        jsmith@gmail.com       $50.00  http://www.jsmith.com
+Bach        Frank       fbach@yahoo.com        $51.00  http://www.frank.com
+Doe         Jason       jdoe@hotmail.com       $100.00 http://www.jdoe.com
+Conway      Tim         tconway@earthlink.net  $50.00  http://www.timconway.com
 ```
+
+---
+
+### Notes
+- Ensure you use good version control practices with meaningful commit messages.
+- Update the README file if additional setup steps are needed.
+- Validate that all tests pass before pushing changes to your repository.
+
+---
+
+This project follows industry best practices for test automation using Cucumber with Selenium. 🚀
