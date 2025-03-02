@@ -18,17 +18,32 @@ public class Hooks extends Context {
     super(manager);
   }
 
-  @Before()
-  public void before() {
-    ChromeOptions options = new ChromeOptions();
-    LoggingPreferences logPrefs = new LoggingPreferences();
-    logPrefs.enable(LogType.BROWSER, Level.ALL);
-    options.addArguments("start-maximized");
-    options.setCapability(ChromeOptions.LOGGING_PREFS, logPrefs);
-    manager.setDriver(new ChromeDriver(options));
-    System.out.println("Made driver");
-  }
+//  @Before()
+//  public void before() {
+//    ChromeOptions options = new ChromeOptions();
+//    LoggingPreferences logPrefs = new LoggingPreferences();
+//    logPrefs.enable(LogType.BROWSER, Level.ALL);
+//    options.addArguments("start-maximized");
+//    options.setCapability(ChromeOptions.LOGGING_PREFS, logPrefs);
+//    manager.setDriver(new ChromeDriver(options));
+//    System.out.println("Made driver");
+//  }
+@Before()
+public void before() {
+  ChromeOptions options = new ChromeOptions();
+  LoggingPreferences logPrefs = new LoggingPreferences();
+  logPrefs.enable(LogType.BROWSER, Level.ALL);
 
+  //  Run Chrome in headless mode (Fix for Jenkins)
+  options.addArguments("--headless");
+  options.addArguments("--no-sandbox");
+  options.addArguments("--disable-dev-shm-usage");
+  options.addArguments("--disable-gpu");
+  options.addArguments("--remote-allow-origins=*");
+  options.setCapability(ChromeOptions.LOGGING_PREFS, logPrefs);
+
+  manager.setDriver(new ChromeDriver(options));
+}
   @BeforeStep
   public void beforeStep() {
     System.out.println("Starting step..............................");
