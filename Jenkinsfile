@@ -7,9 +7,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'verify_homepage_links.feature
-
-       ', description: 'Feature branch to test')
+        string(name: 'BRANCH_NAME', defaultValue: 'verify_homepage_links.feature', description: 'Feature branch to test')
         string(name: 'CUCUMBER_TAGS', defaultValue: '@regression or @smoke', description: 'Cucumber tags to filter tests')
     }
 
