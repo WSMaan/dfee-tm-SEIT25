@@ -8,7 +8,6 @@ pipeline {
 
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'sortable_data_tables.feature', description: 'Feature branch to test')
-        string(name: 'FEATURE_FILE', defaultValue: 'src/test/resources/features/sortable_data_tables.feature', description: 'Feature file to run')
         string(name: 'CUCUMBER_TAGS', defaultValue: '@regression or @smoke', description: 'Cucumber tags to filter tests')
     }
 
@@ -29,11 +28,23 @@ pipeline {
             }
         }
 
+        stage('Validate Scenarios') {
+            steps {
+                dir('cucumber-tests') {
+                    sh """
+                    echo 'Validating scenarios with tags: ${params.CUCUMBER_TAGS}'
+                    mvn test -Dcucumber.filter.tags='${params.CUCUMBER_TAGS}' -DdryRun=true
+                    """
+                }
+            }
+        }
+
         stage('Run Cucumber Tests') {
             steps {
                 dir('cucumber-tests') {
                     sh """
-                    mvn clean test -Dcucumber.filter.tags='${params.CUCUMBER_TAGS}' -Dcucumber.options='${params.FEATURE_FILE}'
+                    echo 'Executing scenarios with tags: ${params.CUCUMBER_TAGS}'
+                    mvn clean test -Dcucumber.filter.tags='${params.CUCUMBER_TAGS}'
                     """
                 }
             }
