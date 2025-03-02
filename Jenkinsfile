@@ -31,17 +31,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                dir('cucumber-tests') {
-                    sh '''
-                    sudo apt-get update
-                    sudo apt-get install -y maven google-chrome-stable
-                    '''
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 dir('cucumber-tests') {
