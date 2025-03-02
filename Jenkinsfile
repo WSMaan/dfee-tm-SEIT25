@@ -4,8 +4,6 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID = "583187964056"
         AWS_REGION = "us-east-2"
-        ECR_REPOSITORY_NAME = "exam"
-        ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         S3_BUCKET = "seit-25"
     }
 
@@ -31,39 +29,11 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Run Cucumber Tests') {
             steps {
                 dir('cucumber-tests') {
-                    script {
-                        def imageTag = "${ECR_REGISTRY}/${ECR_REPOSITORY_NAME}:test-${params.BRANCH_NAME}"
-                        sh """
-                        docker build -t ${imageTag} .
-                        """
-                    }
-                }
-            }
-        }
-
-        stage('Push Docker Image to ECR') {
-            steps {
-                script {
-                    def imageTag = "${ECR_REGISTRY}/${ECR_REPOSITORY_NAME}:test-${params.BRANCH_NAME}"
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_key']]) {
-                        sh """
-                        aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-                        docker push ${imageTag}
-                        """
-                    }
-                }
-            }
-        }
-
-        stage('Run Cucumber Tests in Docker') {
-            steps {
-                script {
-                    def imageTag = "${ECR_REGISTRY}/${ECR_REPOSITORY_NAME}:test-${params.BRANCH_NAME}"
                     sh """
-                    docker run --rm ${imageTag} mvn clean test -Dcucumber.options='${params.FEATURE_FILE}'
+                    mvn clean test -Dcucumber.options='${params.FEATURE_FILE}'
                     """
                 }
             }
