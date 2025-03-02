@@ -4,7 +4,6 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID = "583187964056"
         AWS_REGION = "us-east-2"
-        S3_BUCKET = "seit-25"
     }
 
     parameters {
@@ -35,35 +34,6 @@ pipeline {
                     sh """
                     mvn clean test -Dcucumber.options='${params.FEATURE_FILE}'
                     """
-                }
-            }
-        }
-
-        stage('Generate Reports') {
-            steps {
-                dir('cucumber-tests') {
-                    sh '''
-                    mkdir -p target/cucumber-reports
-                    mv target/cucumber-report/cucumber.html target/cucumber-reports/
-                    '''
-                }
-            }
-        }
-
-        stage('Archive Results in Jenkins') {
-            steps {
-                archiveArtifacts artifacts: 'cucumber-tests/target/cucumber-reports/*', fingerprint: true
-            }
-        }
-
-        stage('Upload Reports to S3') {
-            steps {
-                script {
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_key']]) {
-                        sh """
-                        aws s3 cp cucumber-tests/target/cucumber-reports/ s3://${S3_BUCKET}/cucumber-reports/ --recursive
-                        """
-                    }
                 }
             }
         }
